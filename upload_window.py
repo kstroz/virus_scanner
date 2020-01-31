@@ -23,6 +23,8 @@ class UploadWindow(tk.Frame):
         self.api_lbl = tk.Label(self.api_frame, text='API key', bg=self.controller.bg, font=self.font, padx=30)
         self.api_key = tk.Entry(self.api_frame, text='Insert your api key', bg=self.controller.bg, font=self.font)
         self.api_key.insert(tk.END, 'Please enter your API key')
+        self.api_key.bind("<Button-1>", self.api_clear)
+        self.api_key.bind("<Leave>", self.api_fill)
 
         # Placing top level widgets on grid
         self.upload_btn.grid(row=0, sticky=tk.S)
@@ -32,3 +34,12 @@ class UploadWindow(tk.Frame):
         self.api_lbl.grid(row=0)
         self.api_key.grid(row=0, column=1, sticky=tk.EW)
         self.api_frame.grid(row=2, sticky=tk.EW)
+
+    def api_clear(self, event):
+        if self.api_key.get() == 'Please enter your API key':
+            self.api_key.delete(0, tk.END)
+
+    def api_fill(self, event):
+        if self.api_key.get() == '':
+            self.api_key.insert(0, 'Please enter your API key')
+
