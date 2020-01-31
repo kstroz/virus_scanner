@@ -9,7 +9,11 @@ class Main(tk.Frame):
         self.parent = parent
 
         # Variable for changing background for whole App
-        self.bg = 'white'
+        self.shared_data = {
+            "bg": "white",
+            "url": "https://www.virustotal.com/vtapi/v2/file",
+            "api_key": tk.StringVar()
+        }
 
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
@@ -22,7 +26,7 @@ class Main(tk.Frame):
         self.frames = {}
         for F in (uw.UploadWindow, rw.ReportWindow):
             page_name = F.__name__
-            frame = F(parent=container, controller=self, bg=self.bg)
+            frame = F(parent=container, controller=self, bg=self.shared_data["bg"])
             self.frames[page_name] = frame
 
             # put all of the pages in the same location;

@@ -12,16 +12,19 @@ class UploadWindow(tk.Frame):
 
         # Upper widgets
         self.upload_btn = tk.Button(self, text='Upload your file', relief=tk.SOLID, bd=2,
-                                    command=lambda: controller.show_frame('ReportWindow'), bg=self.controller.bg)
+                                    command=lambda: controller.show_frame('ReportWindow'),
+                                    bg=self.controller.shared_data['bg'])
 
         self.upload_lbl = tk.Label(self, text='You can upload 4 files per minute, due to limitation of basic API',
-                                   bg=self.controller.bg)
+                                   bg=self.controller.shared_data['bg'])
 
         # Api widgets
-        self.api_frame = tk.Frame(self, bg=self.controller.bg)
+        self.api_frame = tk.Frame(self, bg=self.controller.shared_data['bg'])
         self.api_frame.columnconfigure(1, weight=1)
-        self.api_lbl = tk.Label(self.api_frame, text='API key', bg=self.controller.bg, font=self.font, padx=30)
-        self.api_key = tk.Entry(self.api_frame, text='Insert your api key', bg=self.controller.bg, font=self.font)
+        self.api_lbl = tk.Label(self.api_frame, text='API key', bg=self.controller.shared_data['bg'], font=self.font,
+                                padx=30)
+        self.api_key = tk.Entry(self.api_frame, text='Insert your api key', bg=self.controller.shared_data['bg'],
+                                font=self.font)
         self.api_key.insert(tk.END, 'Please enter your API key')
         self.api_key.bind("<Button-1>", self.api_clear)
         self.api_key.bind("<Leave>", self.api_fill)
@@ -42,4 +45,5 @@ class UploadWindow(tk.Frame):
     def api_fill(self, event):
         if self.api_key.get() == '':
             self.api_key.insert(0, 'Please enter your API key')
-
+        else:
+            self.controller.shared_data["api_key"].set(self.api_key.get())
