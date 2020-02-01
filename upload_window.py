@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter.font import Font
+import report_window as rw
 
 
 class UploadWindow(tk.Frame):
@@ -12,7 +13,7 @@ class UploadWindow(tk.Frame):
 
         # Upper widgets
         self.upload_btn = tk.Button(self, text='Upload your file', relief=tk.SOLID, bd=2,
-                                    command=lambda: controller.show_frame('ReportWindow'),
+                                    command=self.do_stuff,
                                     bg=self.controller.shared_data['bg'])
 
         self.upload_lbl = tk.Label(self, text='You can upload 4 files per minute, due to limitation of basic API',
@@ -47,3 +48,9 @@ class UploadWindow(tk.Frame):
             self.api_key.insert(0, 'Please enter your API key')
         else:
             self.controller.shared_data["api_key"].set(self.api_key.get())
+
+    def do_stuff(self):
+        self.controller.get_page('ReportWindow').func(['1','2','3'])
+        self.controller.show_frame('ReportWindow')
+
+

@@ -41,3 +41,10 @@ class ReportWindow(tk.Frame):
         # Placing widgets for detailed result section on grid
         self.details_frame.grid(row=0, sticky=tk.NSEW, column=1)
         self.report_details_lbl.grid(sticky=tk.N, pady=(10, 0))
+
+    def func(self, txt):
+        row = 1
+        for t in txt:
+            txtlbl = tk.Label(self.details_frame, text=t, bg=self.controller.shared_data['bg'], relief=tk.FLAT)
+            txtlbl.grid(row=row)
+            row += 1

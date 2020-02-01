@@ -43,6 +43,9 @@ class Main(tk.Frame):
         frame = self.frames[page_name]
         frame.tkraise()
 
+    def get_page(self, page_class):
+        return self.frames[page_class]
+
 
 if __name__ == "__main__":
     root = tk.Tk()
