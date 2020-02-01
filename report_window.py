@@ -42,9 +42,10 @@ class ReportWindow(tk.Frame):
         self.details_frame.grid(row=0, sticky=tk.NSEW, column=1)
         self.report_details_lbl.grid(sticky=tk.N, pady=(10, 0))
 
-    def func(self, txt):
+    def fill_details(self, scan_result):
+        """Showing scan result on grid"""
         row = 1
-        for t in txt:
-            txtlbl = tk.Label(self.details_frame, text=t, bg=self.controller.shared_data['bg'], relief=tk.FLAT)
-            txtlbl.grid(row=row)
+        for scan in scan_result:
+            detail = tk.Label(self.details_frame, text=scan, bg=self.controller.shared_data['bg'], relief=tk.FLAT)
+            detail.grid(row=row)
             row += 1

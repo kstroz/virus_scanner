@@ -39,11 +39,12 @@ class Main(tk.Frame):
         self.show_frame("UploadWindow")
 
     def show_frame(self, page_name):
-        '''Show a frame for the given page name'''
+        """Show a frame for the given page name"""
         frame = self.frames[page_name]
         frame.tkraise()
 
     def get_page(self, page_class):
+        """Pass reference of one of the Frames"""
         return self.frames[page_class]
 
 
