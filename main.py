@@ -11,7 +11,7 @@ class Main(tk.Frame):
         # Variable for changing background for whole App
         self.shared_data = {
             "bg": "white",
-            "url": "https://www.virustotal.com/vtapi/v2/file",
+            "url": "https://www.virustotal.com/vtapi/v2/",
             "api_key": tk.StringVar()
         }
 
@@ -47,6 +47,6 @@ class Main(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title('Virus scanner')
-    root.geometry("600x400")
+    root.geometry("800x600")
     Main(root).pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     root.mainloop()
