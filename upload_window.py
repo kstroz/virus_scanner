@@ -1,6 +1,7 @@
 import os
 import tkinter as tk
 from tkinter import filedialog as fd
+from tkinter import messagebox as msgbox
 from tkinter.font import Font
 from random import randrange
 
@@ -67,8 +68,10 @@ class UploadWindow(tk.Frame):
     def pass_results(self):
         """Passing result of the scan to report window, after clicking upload button, and changing actual frame for
         it """
-        random = range(randrange(0, 5))
-        report = [num for num in random]
-        print(self.controller.shared_data['file'].get())
-        self.controller.get_page('ReportWindow').fill_details(report)
-        self.controller.show_frame('ReportWindow')
+        if self.controller.shared_data['file'].get() == '':
+            msgbox.showerror("Error", "No file chosen")
+        else:
+            random = range(randrange(0, 5))
+            report = [num for num in random]
+            self.controller.get_page('ReportWindow').fill_details(report)
+            self.controller.show_frame('ReportWindow')
