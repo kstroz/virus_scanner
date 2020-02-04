@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog as fd
 from tkinter.font import Font
 from random import randrange
 
@@ -9,9 +10,14 @@ class UploadWindow(tk.Frame):
         self.controller = controller
         self.font = Font(family="Ubuntu", size=12)
 
+        self.columnconfigure(1, weight=1)
         self.rowconfigure(1, weight=1)
 
         # Upper widgets
+        self.pick_file_btn = tk.Button(self, text='Choose file for scanning', relief=tk.SOLID, bd=2,
+                                       command=self.pass_results,
+                                       bg=self.controller.shared_data['bg'])
+
         self.upload_btn = tk.Button(self, text='Upload your file', relief=tk.SOLID, bd=2,
                                     command=self.pass_results,
                                     bg=self.controller.shared_data['bg'])
@@ -31,13 +37,14 @@ class UploadWindow(tk.Frame):
         self.api_key.bind("<Leave>", self.api_fill)
 
         # Placing top level widgets on grid
-        self.upload_btn.grid(row=0, sticky=tk.S)
-        self.upload_lbl.grid(row=1, sticky=tk.N)
+        self.pick_file_btn.grid(row=0, column=0, sticky=tk.SE)
+        self.upload_btn.grid(row=0, column=1, sticky=tk.SW)
+        self.upload_lbl.grid(row=1, columnspan=2, sticky=tk.N)
 
         # Placing API widgets on bottom of grid
         self.api_lbl.grid(row=0)
         self.api_key.grid(row=0, column=1, sticky=tk.EW)
-        self.api_frame.grid(row=2, sticky=tk.EW)
+        self.api_frame.grid(row=2, columnspan=2, sticky=tk.EW)
 
     def api_clear(self, event):
         """Clearing widget responsible for entering the api key, when user clicks on it, and its still original text"""
