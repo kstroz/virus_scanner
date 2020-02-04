@@ -17,7 +17,8 @@ class ReportWindow(tk.Frame):
         self.result_frame.columnconfigure(1, weight=1)
         self.result_frame.rowconfigure(0, weight=1)
         self.result_frame.rowconfigure(1, weight=1)
-        self.report_lbl = tk.Label(self.result_frame, text='Detected by 0/100\nWhat do you want to do with this file?',
+        self.report_lbl = tk.Label(self.result_frame,
+                                   text="",
                                    bg=self.controller.shared_data['bg'])
         self.scan_next_btn = tk.Button(self.result_frame, text='Scan next file', relief=tk.SOLID, borderwidth=2,
                                        command=lambda: controller.show_frame('UploadWindow'),
@@ -44,12 +45,18 @@ class ReportWindow(tk.Frame):
 
     def fill_details(self, scan_result):
         """Showing scan result on grid"""
+        self.controller.shared_data['antivirus_counter'] = len(scan_result)
         # Clearing grid from previous scans
         for i in range(self.details_frame.grid_size()[1] - 1):
             self.details_frame.grid_slaves(i + 1, 0)[0]['text'] = ''
 
         # Filling cleaned grid with new scans
         for i, scan in enumerate(scan_result):
+            if scan_result[scan]['detected']:
+                self.controller.shared_data['detected_counter'] += 1
             scan_txt = f"{i + 1}. {scan} - detected: {scan_result[scan]['detected']}"
             detail = tk.Label(self.details_frame, text=scan_txt, bg=self.controller.shared_data['bg'], relief=tk.FLAT)
             detail.grid(row=i + 1, sticky=tk.W)
+
+        self.report_lbl['text'] = f"Detected by {self.controller.shared_data['detected_counter']}/{self.controller.shared_data['antivirus_counter']}\n What do you want to do with this file?"
+

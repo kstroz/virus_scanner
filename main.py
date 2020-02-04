@@ -13,7 +13,9 @@ class Main(tk.Frame):
             "bg": "white",
             "file": tk.StringVar(),
             "url": "https://www.virustotal.com/vtapi/v2/",
-            "api_key": tk.StringVar()
+            "api_key": tk.StringVar(),
+            "antivirus_counter": 0,
+            "detected_counter": 0
         }
 
         # the container is where we'll stack a bunch of frames
