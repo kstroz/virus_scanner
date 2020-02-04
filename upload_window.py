@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter import filedialog as fd
 from tkinter import messagebox as msgbox
 from tkinter.font import Font
-from random import randrange
 
 
 class UploadWindow(tk.Frame):
@@ -77,9 +76,7 @@ class UploadWindow(tk.Frame):
             msgbox.showerror("Error", "No file chosen")
         else:
             scan = self.scan(self.controller.shared_data['file'].get())
-            report = self.report(scan)
-            random = range(randrange(0, 5))
-            report = [num for num in random]
+            report = self.report(scan)['scans']
             self.controller.get_page('ReportWindow').fill_details(report)
             self.controller.show_frame('ReportWindow')
 

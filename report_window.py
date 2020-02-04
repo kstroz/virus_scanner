@@ -50,5 +50,6 @@ class ReportWindow(tk.Frame):
 
         # Filling cleaned grid with new scans
         for i, scan in enumerate(scan_result):
-            detail = tk.Label(self.details_frame, text=scan, bg=self.controller.shared_data['bg'], relief=tk.FLAT)
+            scan_txt = f"{i + 1}. {scan} - {scan_result[scan]['detected']}"
+            detail = tk.Label(self.details_frame, text=scan_txt, bg=self.controller.shared_data['bg'], relief=tk.FLAT)
             detail.grid(row=i + 1)
