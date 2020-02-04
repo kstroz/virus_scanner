@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter.font import Font
+from random import randrange
 
 
 class UploadWindow(tk.Frame):
@@ -53,5 +54,7 @@ class UploadWindow(tk.Frame):
     def pass_results(self):
         """Passing result of the scan to report window, after clicking upload button, and changing actual frame for
         it """
-        self.controller.get_page('ReportWindow').fill_details(['1', '2', '3'])
+        random = range(randrange(0, 5))
+        report = [num for num in random]
+        self.controller.get_page('ReportWindow').fill_details(report)
         self.controller.show_frame('ReportWindow')

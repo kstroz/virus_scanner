@@ -44,8 +44,11 @@ class ReportWindow(tk.Frame):
 
     def fill_details(self, scan_result):
         """Showing scan result on grid"""
-        row = 1
-        for scan in scan_result:
+        # Clearing grid from previous scans
+        for i in range(self.details_frame.grid_size()[1] - 1):
+            self.details_frame.grid_slaves(i + 1, 0)[0]['text'] = ''
+
+        # Filling cleaned grid with new scans
+        for i, scan in enumerate(scan_result):
             detail = tk.Label(self.details_frame, text=scan, bg=self.controller.shared_data['bg'], relief=tk.FLAT)
-            detail.grid(row=row)
-            row += 1
+            detail.grid(row=i + 1)
