@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import filedialog as fd
 from tkinter.font import Font
@@ -15,7 +16,7 @@ class UploadWindow(tk.Frame):
 
         # Upper widgets
         self.pick_file_btn = tk.Button(self, text='Choose file for scanning', relief=tk.SOLID, bd=2,
-                                       command=self.pass_results,
+                                       command=self.pick_file,
                                        bg=self.controller.shared_data['bg'])
 
         self.upload_btn = tk.Button(self, text='Upload your file', relief=tk.SOLID, bd=2,
@@ -46,6 +47,11 @@ class UploadWindow(tk.Frame):
         self.api_key.grid(row=0, column=1, sticky=tk.EW)
         self.api_frame.grid(row=2, columnspan=2, sticky=tk.EW)
 
+    def pick_file(self):
+        self.controller.shared_data["file"].set(fd.askopenfilename(initialdir=os.getcwd(), title='Select file for scan',
+                                                                   filetypes=(
+                                                                   ("zip files", "*.zip"), ("all files", "*.*"))))
+
     def api_clear(self, event):
         """Clearing widget responsible for entering the api key, when user clicks on it, and its still original text"""
         if self.api_key.get() == 'Please enter your API key':
@@ -63,5 +69,6 @@ class UploadWindow(tk.Frame):
         it """
         random = range(randrange(0, 5))
         report = [num for num in random]
+        print(self.controller.shared_data['file'].get())
         self.controller.get_page('ReportWindow').fill_details(report)
         self.controller.show_frame('ReportWindow')

@@ -11,6 +11,7 @@ class Main(tk.Frame):
         # Variable for changing background for whole App
         self.shared_data = {
             "bg": "white",
+            "file": tk.StringVar(),
             "url": "https://www.virustotal.com/vtapi/v2/",
             "api_key": tk.StringVar()
         }
