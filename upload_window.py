@@ -14,8 +14,12 @@ class UploadWindow(tk.Frame):
 
         self.columnconfigure(1, weight=1)
         self.rowconfigure(1, weight=1)
+        self.rowconfigure(2, weight=1)
 
         # Upper widgets
+        self.file_lbl = tk.Label(self, textvariable=self.controller.shared_data['file'],
+                                 bg=self.controller.shared_data['bg'])
+
         self.pick_file_btn = tk.Button(self, text='Choose file for scanning', relief=tk.SOLID, bd=2,
                                        command=self.pick_file,
                                        bg=self.controller.shared_data['bg'])
@@ -39,19 +43,20 @@ class UploadWindow(tk.Frame):
         self.api_key.bind("<Leave>", self.api_fill)
 
         # Placing top level widgets on grid
-        self.pick_file_btn.grid(row=0, column=0, sticky=tk.SE)
-        self.upload_btn.grid(row=0, column=1, sticky=tk.SW)
-        self.upload_lbl.grid(row=1, columnspan=2, sticky=tk.N)
+        self.file_lbl.grid(row=0, columnspan=2, sticky=tk.S)
+        self.pick_file_btn.grid(row=1, column=0, sticky=tk.SE)
+        self.upload_btn.grid(row=1, column=1, sticky=tk.SW)
+        self.upload_lbl.grid(row=2, columnspan=2, sticky=tk.N)
 
         # Placing API widgets on bottom of grid
         self.api_lbl.grid(row=0)
         self.api_key.grid(row=0, column=1, sticky=tk.EW)
-        self.api_frame.grid(row=2, columnspan=2, sticky=tk.EW)
+        self.api_frame.grid(row=3, columnspan=2, sticky=tk.EW)
 
     def pick_file(self):
         self.controller.shared_data["file"].set(fd.askopenfilename(initialdir=os.getcwd(), title='Select file for scan',
                                                                    filetypes=(
-                                                                   ("zip files", "*.zip"), ("all files", "*.*"))))
+                                                                       ("zip files", "*.zip"), ("all files", "*.*"))))
 
     def api_clear(self, event):
         """Clearing widget responsible for entering the api key, when user clicks on it, and its still original text"""
