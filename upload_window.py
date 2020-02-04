@@ -1,4 +1,4 @@
-import os
+import os, requests
 import tkinter as tk
 from tkinter import filedialog as fd
 from tkinter import messagebox as msgbox
@@ -76,7 +76,24 @@ class UploadWindow(tk.Frame):
         if self.controller.shared_data['file'].get() == '':
             msgbox.showerror("Error", "No file chosen")
         else:
+            scan = self.scan(self.controller.shared_data['file'].get())
+            report = self.report(scan)
             random = range(randrange(0, 5))
             report = [num for num in random]
             self.controller.get_page('ReportWindow').fill_details(report)
             self.controller.show_frame('ReportWindow')
+
+    def scan(self, file):
+        """Sending files through virustotal api for scanning"""
+        url = self.controller.shared_data['url']
+        params = {'apikey': self.controller.shared_data['api_key'].get()}
+        files = {'file': (os.path.basename(file), open(file, 'rb'))}
+        response = requests.post(url + 'file/scan', files=files, params=params)
+        return response.json()
+
+    def report(self, report):
+        """Grabbing report from virustotal via api"""
+        url = self.controller.shared_data['url']
+        params = {'apikey': self.controller.shared_data['api_key'].get(), 'resource': report['resource']}
+        response = requests.get(url + 'file/report', params=params)
+        return response.json()
