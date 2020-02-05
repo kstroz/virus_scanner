@@ -1,4 +1,5 @@
 import tkinter as tk
+import os
 
 
 class ReportWindow(tk.Frame):
@@ -21,10 +22,13 @@ class ReportWindow(tk.Frame):
                                    text="",
                                    bg=self.controller.shared_data['bg'])
         self.scan_next_btn = tk.Button(self.result_frame, text='Scan next file', relief=tk.SOLID, borderwidth=2,
-                                       command=lambda: controller.show_frame('UploadWindow'),
+                                       command=lambda: [self.controller.shared_data['file'].set(''),
+                                                        self.controller.show_frame('UploadWindow')],
                                        bg=self.controller.shared_data['bg'])
         self.delete_file_btn = tk.Button(self.result_frame, text='Delete and scan next file', relief=tk.SOLID, bd=2,
-                                         command=lambda: controller.show_frame('UploadWindow'),
+                                         command=lambda: [os.remove(self.controller.shared_data['file'].get()),
+                                                          self.controller.shared_data['file'].set(''),
+                                                          self.controller.show_frame('UploadWindow')],
                                          bg=self.controller.shared_data['bg'])
 
         # Creating widgets for detailed result section
