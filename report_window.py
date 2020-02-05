@@ -8,7 +8,7 @@ class ReportWindow(tk.Frame):
         self.parent = parent
 
         # Define space for each frame
-        self.columnconfigure(0, weight=2)
+        self.columnconfigure(0, weight=3)
         self.columnconfigure(1, weight=1)
 
         # Creating widgets for next decision after scan
@@ -28,10 +28,12 @@ class ReportWindow(tk.Frame):
                                          bg=self.controller.shared_data['bg'])
 
         # Creating widgets for detailed result section
-        self.details_frame = tk.Frame(self, bd=2, bg=self.controller.shared_data['bg'], relief=tk.SOLID)
-        self.details_frame.columnconfigure(0, weight=1)
-        self.report_details_lbl = tk.Label(self.details_frame, text='Details', bg=self.controller.shared_data['bg'],
-                                           relief=tk.FLAT)
+        self.details_area = tk.Frame(self, bd=2, bg=self.controller.shared_data['bg'], relief=tk.SOLID)
+        self.details_canvas = tk.Canvas(self.details_area, bg=self.controller.shared_data['bg'], highlightthickness=0)
+        self.details_scrollbar = tk.Scrollbar(self.details_area, orient=tk.VERTICAL, command=self.details_canvas.yview)
+        self.details_canvas.configure(yscrollcommand=self.details_scrollbar.set)
+        self.details_frame = tk.Frame(self.details_canvas, bg=self.controller.shared_data['bg'])
+        self.report_details_lbl = tk.Label(self.details_frame, text='Details', bg=self.controller.shared_data['bg'])
 
         # Placing widgets for next decision after scan on grid
         self.result_frame.grid(row=0, sticky=tk.NSEW)
@@ -40,8 +42,17 @@ class ReportWindow(tk.Frame):
         self.delete_file_btn.grid(row=1, column=1, sticky=tk.N)
 
         # Placing widgets for detailed result section on grid
-        self.details_frame.grid(row=0, sticky=tk.NSEW, column=1)
-        self.report_details_lbl.grid(sticky=tk.N, pady=(10, 0))
+        self.details_area.grid(row=0, sticky=tk.NSEW, column=1)
+        self.details_canvas.pack(side=tk.LEFT, fill=tk.BOTH)
+        self.details_canvas.create_window((0, 0), window=self.details_frame, anchor=tk.NW)
+        self.details_frame.bind("<Configure>", self.resize)
+        self.details_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.report_details_lbl.grid(sticky=tk.N, pady=(5, 0))
+
+    def resize(self, event):
+        """Resizing frame when resizing main window"""
+        self.details_canvas.configure(scrollregion=self.details_canvas.bbox(tk.ALL), width=event.width,
+                                      height=event.height, bg=self.controller.shared_data['bg'])
 
     def fill_details(self, scan_result):
         """Showing scan result on grid"""
@@ -58,5 +69,5 @@ class ReportWindow(tk.Frame):
             detail = tk.Label(self.details_frame, text=scan_txt, bg=self.controller.shared_data['bg'], relief=tk.FLAT)
             detail.grid(row=i + 1, sticky=tk.W)
 
-        self.report_lbl['text'] = f"Detected by {self.controller.shared_data['detected_counter']}/{self.controller.shared_data['antivirus_counter']}\n What do you want to do with this file?"
-
+        self.report_lbl[
+            'text'] = f"Detected by {self.controller.shared_data['detected_counter']}/{self.controller.shared_data['antivirus_counter']}\n What do you want to do with this file?"
